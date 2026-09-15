@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update sys_domain="global" table="sn_aia_agent">
+    <sn_aia_agent action="INSERT_OR_UPDATE">
+        <advanced_mode>false</advanced_mode>
+        <agent_type>internal</agent_type>
+        <applicability_script><![CDATA[/** 
+ * Function to process inputs related to ServiceNow change request operations 
+ * 
+ * @param {Object} inputs - The input parameters object 
+ * @param {string} inputs.objective - The purpose or goal of the operation 
+ * @param {string} inputs.execution_plan_id - Unique identifier for the execution plan 
+ * @param {Object} inputs.context - Context information about the ServiceNow change request 
+ * @param {string} inputs.context.url - The URL of the change request in Service Operations Workspace 
+ * @param {string} inputs.context.table - The ServiceNow table name (e.g., 'change_request') 
+ * @param {string} inputs.context.record_sys_id - The sys ID of the record 
+ * @param {string} inputs.context.route - The route type (e.g., 'record') 
+ * @param {string} inputs.context.additional_context - Additional contextual information in JSON format 
+ * @param {string} inputs.context.experience - The UI experience name (e.g., 'Service Operations Workspace') 
+ * @param {string} inputs.context.number - The request number 
+ * @param {string} inputs.context.portal - The portal ID 
+ * @param {string} inputs.context.device_type - The device type from which the experience is accessed, e.g.'mweb' 
+ * @param {string} inputs.context.deployment_id - The unique identifier for the assistant deployment 
+ * @param {string} inputs.context.assistant_type - The type of assistant, e.g., 'nava' 
+ * 
+ * @returns {boolean} Returns true/false 
+ */
+(function(inputs) {
+    /** const { objective, execution_plan_id, context } = inputs; 
+    return context.table == 'incident' ; */
+    return false;
+})(inputs);]]></applicability_script>
+        <channel>nap_and_va</channel>
+        <compiled_handbook>{"model_output": "### Step 1: Incident Details Retrieval\n- Begin by using the 'Get details of Incident Record' tool to fetch the incident details.\n- Input the `incident_number` into the 'Get details of Incident Record' tool to retrieve the incident record, including fields like `short_description` and `description`.\n\n### Step 2: Set Incident Urgency\n- Use the 'Set Urgency New' tool to set the urgency of the incident based on the `short_description` and `description` from the incident record.\n- Input the `short_description` and `description` into the 'Set Urgency New' tool to update the urgency for the incident.\n\n### Step 3: Search for Similar Problems\n- Use the 'Problem Search Retrieval' tool to search for similar problems related to the incident.\n- Input the `short_description` and `description` into the 'Problem Search Retrieval' tool to retrieve similar problems.\n- If similar problems are found, use the 'Update Incident' tool to update the incident with comments containing the problem description and number.\n\n### Step 4: Search for Similar Change Requests\n- Use the 'Get Change Request' tool to search for similar change requests related to the incident.\n- Input the `short_description` and `description` into the 'Get Change Request' tool to retrieve similar change requests.\n- If similar change requests are found, use the 'Update Incident' tool to update the incident with comments containing the change request description and number.\n\n### Step 5: Search for Relevant Knowledge Base Articles\n- Use the 'Get Relevant Knowledge Article' tool to search for relevant knowledge base articles related to the incident.\n- Input the `short_description` and `description` into the 'Get Relevant Knowledge Article' tool to retrieve relevant knowledge base articles.\n- If relevant knowledge base articles are found, extract the solution from the article and use the 'Update Incident' tool to update the incident with the solution in `resolution_notes` and `comments`.\n- Then, use the 'OnHold Incident' tool to change the incident state to On Hold.\n\n### Step 6: Handle No Relevant Knowledge Base Articles\n- If no relevant knowledge base articles are found, use the 'Fetch All Assignment Groups' tool to retrieve all assignment groups.\n- Based on the incident's `short_description` and `description`, select an assignment group and store its `sys_id` in the variable `group_sysid`.\n- Use the 'Fetch Users of Group' tool to retrieve users from the selected group.\n- Select a user from the group and store the user's `sys_id` in the variable `user_sysid`.\n- Use the 'Update Incident' tool to assign the selected group and user to the incident and update comments with \"No Relevant KB Article Found\".\n\n### Step 7: User Communication\n- Use the 'User Output' tool to communicate the incident status and any related changes or problems to the user.\n- Ensure the communication is clear and follows the &lt;agent-communication-style&gt; guidelines.\n\n### Step 8: Analysis and Synthesis\n- Use the 'Content Analysis' tool to analyze and synthesize information throughout the process, especially when generating plans or summaries.\n- This tool can help in breaking down complex tasks, comprehending information, and synthesizing data.\n\n### Step 9: Unexpected Scenarios\n- If the &lt;agent&gt; encounters any unexpected scenario or tool outcome, use the 'Content Analysis' tool to analyze the situation.\n- If the &lt;agent&gt; cannot proceed due to lack of information or tools, use the 'User Output' tool to inform the user that the mission is beyond its capabilities and then use the 'Finish' tool.\n\n### Step 10: Completion\n- Once the incident has been processed according to the &lt;agent-instructions&gt;, use the 'Finish' tool to conclude the execution."}</compiled_handbook>
+        <condition/>
+        <context_processing_script><![CDATA[/*
+ * Available Variables:
+ * - task: The task provided to agent to solve either by orchestrator or user(incase of only agent execution i.e agent is invoked as seperate entity instead from a workflow).
+ * - user_utterance: The user utterance provided. and task = user_utterance in case of individual agent execution.
+ * - agent_id: The agent id.
+ * - context: An object that carries additional contextual information for the agent.
+ *          It always includes a "pageContext" and may include a "triggerContext",
+ *          depending on how and from where the agent is invoked.
+ *
+ *          Behavior by invocation type:
+ *          ---------------------------------
+ *          - When invoked via the startAiAgentConversation API:
+ *                If a "contextMemory" parameter is provided in the API request,
+ *                it will be available here as the "triggerContext".
+ *                The "pageContext" is always present in this call, regardless
+ *                of whether the agent is executed individually or as part of a use case.
+ *                Example:
+ *                    {
+ *                        pageContext: { ... },
+ *                        triggerContext: { ... } // Derived from contextMemory (if passed)
+ *                    }
+ *
+ *          - When invoked as part of a use case or workflow:
+ *                The "pageContext" and "triggerContext" objects available here
+ *                may have been *modified* by the use case’s context processing script.
+ *                This means the use case may alter, extend, or overwrite values
+ *                from the original "pageContext" or "triggerContext"
+ *                before the context reaches the agent.
+ *                If the use case was originally triggered via the API,
+ *                the initial "triggerContext" is still derived from the
+ *                "contextMemory" parameter, but its contents may have been updated
+ *                by the use case logic.
+ *
+ *          - When executed directly (standalone agent execution):
+ *                The "pageContext" will always be present (default or empty),
+ *                and the "triggerContext" will only be populated if explicitly
+ *                passed through the API call.
+ * Return an modified context like: { pageContext : {},triggerContext:{} }
+ */
+(function(task, user_utterance, agent_id, context) {
+    return {
+        pageContext : context?.pageContext,
+		triggerContext : context?.triggerContext
+    };
+})(task,user_utterance, agent_id, context);]]></context_processing_script>
+        <description>This AI Agent intelligently processes an incident by examining its details, analyzing sentiment, and using that sentiment to set both urgency and impact. It checks for any associated major incidents and then searches for a relevant Knowledge Base article. When a matching KB is found, the agent extracts the solution, updates the incident with resolution notes and guided comments, and then immediately ends the workflow. If no KB exists, the agent searches for similar incidents, problems, and change requests. When related records are found, it generates one consolidated summary and updates the work notes before stopping the flow. If nothing relevant is identified, the agent simply moves the incident into the In Progress state. The agent strictly follows the defined sequence and obeys all hard-stop rules to ensure clean, efficient, and controlled automation.</description>
+        <external_agent_configuration/>
+        <inputs>{}</inputs>
+        <instructions>1. Fetch Incident Details
+ 
+Use the Fetch incident details tool.
+ 
+Input: incident_number (provided for this run).
+ 
+Output: Incident record including fields like short_description, description, etc.
+
+STORE details in variables : 
+
+Short Description : short_description 
+Description :  description
+ 
+IMPORTANT DON'T EXECUTE STEP 2 BEFORE variables are stored and STEP 1 gets completed.
+
+2. Check CI Model and EOL Status
+
+Use the Identify CI Model Tool.
+
+Input: incident_number
+
+Output: CI Model and End of Life Lifecycle fields like eol_status, eol_date.
+
+
+3. Search for Relevant Knowledge Base (KB) Article
+
+Use: Get Relevant Knowledge Article tool
+Input: short_description, description
+Output: Relevant KB article, if found
+
+IF A RELEVANT KB ARTICLE IS FOUND — DO ALL OF THE BELOW AND THEN STOP:
+
+Extract the solution from the KB article.
+
+Prepare fields:
+
+resolution_notes = &lt;KB article solution&gt;
+comments = &lt;KB article solution expanded into bullet-point guidance + include KB number + include KB link as last line&gt;
+
+
+STRICTLY run only the "Update Incident OT" tool with:
+
+incident_number = Incident number
+
+work_note= KB solution
+
+AFTER successfully running the Update Incident tool:
+
+YOU MUST IMMEDIATELY STOP THE ENTIRE FLOW.
+DO NOT run any further steps.
+DO NOT call any more tools.
+DO NOT continue to Step 7 or any step below.
+THIS IS A HARD STOP CONDITION.
+
+IF NO KB ARTICLE IS FOUND — ONLY THEN CONTINUE TO STEP 4.
+
+
+
+4. Identify Similar Resolved Incidents
+Execute the SimilarResolvedIncidents tool exactly once.
+
+Strictly Pass the following input for Search:
+
+short_description 
+
+After the tool returns Output, Fields do the following before moving on:
+
+4.1. IMPORTANT : AS PER RESOLUTION NOTES OF RESOLVED INCIDENTS PREPARE A SUMMARY OF RESOLUTION STEPS AND STORE IT IN INCIDENT SOLUTION AND STRICTLY run only the "Update Incident OT" tool with:
+
+incident_number = Incident number
+
+work_note= incident solution
+
+
+
+
+5. END FLOW.</instructions>
+        <internal_name>global.x_aenpl_incigenn_0.Incigenni OT (Copy)</internal_name>
+        <name>Incigenni OT (Copy)</name>
+        <outputs>""</outputs>
+        <parent/>
+        <post_processing_message/>
+        <processing_message/>
+        <proficiency>- Expert in end-to-end incident analysis and resolution automation, including sentiment-based urgency/impact assessment, knowledge-driven solution identification, and precise incident record updating, ensuring rapid, accurate, and guided incident handling.
+- Capable of retrieving comprehensive incident details using the incident number, extracting and storing essential fields (short description, description, etc.) to enable informed decision-making and downstream processing.
+- Able to identify the configuration item (CI) model and its end-of-life (EOL) status for a given incident, providing critical lifecycle information that informs impact assessment and resolution strategies.
+- Proficient in searching for and extracting solutions from relevant knowledge base articles using incident context, and updating the incident with detailed resolution notes, bullet-point guidance, and direct KB references, ensuring knowledge-driven, standardized resolutions.
+- Skilled in updating incident records with precise work notes, including structured solution steps and references, to ensure clear communication, traceability, and closure of incidents based on validated knowledge or historical resolutions.
+- Adept at identifying and summarizing resolution steps from similar resolved incidents, synthesizing historical solutions into actionable guidance for current incidents, and ensuring continuity of best practices.
+- Capable of performing sentiment analysis on incident descriptions or user utterances to assess urgency and impact, enabling dynamic prioritization and more empathetic incident handling.
+- Able to set and update the impact level of incidents based on configuration item data and sentiment analysis, ensuring incidents are prioritized and managed according to their business significance.
+- Proficient in setting and updating incident urgency levels, leveraging sentiment analysis and incident context to ensure timely and appropriate response to critical issues.
+- Capable of retrieving and analyzing similar or related problems for a given incident, supporting root cause analysis, proactive problem management, and escalation of major or recurring issues.
+- Adept at detecting major incidents and identifying similar incidents for major incident management, enabling rapid escalation and coordinated response to critical service disruptions.
+- Able to retrieve and consider active change requests related to the incident, integrating change management insights into incident analysis and resolution planning.
+- Proficient in updating incident state to 'in progress' and documenting ongoing actions with work notes, ensuring clear status communication and process transparency.
+- Capable of fetching detailed incident records, including short description, description, caller, state, and configuration item, to ensure comprehensive situational awareness and informed action.</proficiency>
+        <record_type>custom</record_type>
+        <role>The AI Agent is responsible for intelligently analyzing an incoming incident, determining sentiment-based urgency and impact, automatically identifying relevant resolutions from knowledge, major incidents, or similar records, and updating the incident with correct fields, state, and guided solution steps.</role>
+        <source_id display_value="Incigenni OT">cfaba8051bad431ce2622f02b24bcb13</source_id>
+        <strategy display_value="ReAct">f0bff21f9f13c6108f431597d90a1c74</strategy>
+        <sys_class_name>sn_aia_agent</sys_class_name>
+        <sys_created_by>jay.jignesh</sys_created_by>
+        <sys_created_on>2026-09-15 07:29:05</sys_created_on>
+        <sys_domain>global</sys_domain>
+        <sys_id>dc268d123bd34b10a72197d643e45ac7</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>Incigenni OT (Copy)</sys_name>
+        <sys_package display_value="Incigennie OT" source="x_aenpl_incigenn_0">b85245923b934b10a72197d643e45a85</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Incigennie OT">b85245923b934b10a72197d643e45a85</sys_scope>
+        <sys_update_name>sn_aia_agent_dc268d123bd34b10a72197d643e45ac7</sys_update_name>
+        <sys_updated_by>jay.jignesh</sys_updated_by>
+        <sys_updated_on>2026-09-15 07:29:05</sys_updated_on>
+    </sn_aia_agent>
+</record_update>
