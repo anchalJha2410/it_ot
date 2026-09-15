@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="ais_ai_agent_semantic_search_configuration_m2m">
+    <ais_ai_agent_semantic_search_configuration_m2m action="INSERT_OR_UPDATE">
+        <ai_agent display_value="Incigenni OT (Copy)">dc268d123bd34b10a72197d643e45ac7</ai_agent>
+        <ai_agent_tool display_value="Search Similar Incident for MIM">a426cd123bd34b10a72197d643e45a63</ai_agent_tool>
+        <semantic_search_configuration/>
+        <sys_class_name>ais_ai_agent_semantic_search_configuration_m2m</sys_class_name>
+        <sys_created_by>jay.jignesh</sys_created_by>
+        <sys_created_on>2026-09-15 07:29:39</sys_created_on>
+        <sys_id>a846c9523bd34b10a72197d643e45aa9</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name/>
+        <sys_package display_value="Incigennie OT" source="x_aenpl_incigenn_0">b85245923b934b10a72197d643e45a85</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Incigennie OT">b85245923b934b10a72197d643e45a85</sys_scope>
+        <sys_update_name>ais_ai_agent_semantic_search_configuration_m2m_a846c9523bd34b10a72197d643e45aa9</sys_update_name>
+        <sys_updated_by>jay.jignesh</sys_updated_by>
+        <sys_updated_on>2026-09-15 07:29:39</sys_updated_on>
+    </ais_ai_agent_semantic_search_configuration_m2m>
+</record_update>
