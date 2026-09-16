@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update sys_domain="global" table="sn_aia_tool">
+    <sn_aia_tool action="INSERT_OR_UPDATE">
+        <active>true</active>
+        <description>This tool is used to identify CI Model end of life and sale.</description>
+        <input_schema>[{"name":"incident_number","description":"incident_number","mandatory":false}]</input_schema>
+        <name>Identify CI Model OT</name>
+        <record_type>custom</record_type>
+        <script><![CDATA[(function(inputs) {
+    var incidentNumber = inputs.incident_number;
+
+    var incGR = new GlideRecord('incident');
+    incGR.addQuery('number', incidentNumber);
+    incGR.query();
+
+    if (!incGR.next()) {
+        gs.print('ERROR: Incident not found for number: ' + incidentNumber);
+        return;
+    }
+    if (!incGR.cmdb_ci) {
+        return { error: 'No CI linked to this incident' };
+    }
+
+    // ── Step 1: resolve the CI using its actual class
+    var ciBase = new GlideRecord('cmdb_ci');
+    if (!ciBase.get(incGR.getValue('cmdb_ci'))) {
+        return { error: 'CI record not found' };
+    }
+    var ciActualClass = ciBase.getValue('sys_class_name');
+    var ciGR = new GlideRecord(ciActualClass);
+    if (!ciGR.get(ciBase.getUniqueValue())) {
+        ciGR = ciBase;
+    }
+
+    var modelSysId = ciGR.getValue('model_id');
+    if (!modelSysId) {
+        return { error: 'CI has no model assigned', ci_name: ciGR.getValue('name') };
+    }
+
+    // ── Step 2: resolve the model using its actual class
+    var modelBase = new GlideRecord('cmdb_model');
+    if (!modelBase.get(modelSysId)) {
+        return { error: 'Model record not found' };
+    }
+    var modelActualClass = modelBase.getValue('sys_class_name');
+    var modelGR = new GlideRecord(modelActualClass);
+    if (!modelGR.get(modelBase.getUniqueValue())) {
+        modelGR = modelBase;
+    }
+
+    // ── Step 3: query the lifecycle table for THIS model's "End of life" phase
+    // NOTE: confirm exact field/value names on your instance using the
+    // diagnostic script above before relying on this in production
+    var eolDate = '';
+    var eosDate = '';
+
+    var lifecycleGR = new GlideRecord('cmdb_hardware_model_lifecycle');
+    lifecycleGR.addQuery('model', modelGR.getUniqueValue()); // adjust field name if different
+    lifecycleGR.query();
+
+    while (lifecycleGR.next()) {
+        var phase = lifecycleGR.getDisplayValue('lifecycle_phase'); // adjust field name if different
+        var phaseStart = lifecycleGR.getValue('end_date');  // adjust field name if different
+
+        if (phase === 'End of life') {
+            eolDate = phaseStart;
+        } else if (phase === 'End of support') {
+            eosDate = phaseStart;
+        }
+    }
+
+    // ── Step 4: calculate status off the End of Life date
+    var eolStatus = 'unknown';
+    if (eolDate) {
+        var eolGdt = new GlideDateTime(eolDate);
+        var now = new GlideDateTime();
+        var threeMonthsOut = new GlideDateTime();
+        threeMonthsOut.addMonthsLocalTime(3);
+
+        if (eolGdt.before(now)) {
+            eolStatus = 'reached';
+        } else if (eolGdt.before(threeMonthsOut)) {
+            eolStatus = 'approaching';
+        } else {
+            eolStatus = 'not_due';
+        }
+    }
+
+
+     if (eolStatus === 'reached' || eolStatus === 'approaching') {
+
+        var eolGdtDisplay = new GlideDateTime(eolDate);
+        var formattedEolDate = eolGdtDisplay.getDisplayValue(); // respects user's date format/timezone
+
+        var noteText = '';
+
+        if (eolStatus === 'reached') {
+            noteText = 'Asset requires attention due to its EOL. '
+                + 'This model reached End of Life on ' + formattedEolDate + '.';
+        } else if (eolStatus === 'approaching') {
+            noteText = 'Asset requires attention due to its EOL. '
+                + 'This model is approaching End of Life, scheduled for ' + formattedEolDate + '.';
+        }
+
+        incGR.work_notes = noteText;
+        incGR.update();
+
+        gs.print('========================================');
+        gs.print('WORK NOTE ADDED');
+        gs.print('========================================');
+        gs.print(noteText);
+    } else {
+        gs.print('No EOL work note added — status is: ' + eolStatus);
+    }
+
+    return {
+        ci_sys_id: ciGR.getUniqueValue(),
+        ci_class: ciActualClass,
+        ci_name: ciGR.getValue('name'),
+        model_sys_id: modelGR.getUniqueValue(),
+        model_class: modelActualClass,
+        model_name: modelGR.getValue('name'),
+        manufacturer: modelGR.getDisplayValue('manufacturer'),
+        eol_date: eolDate,
+        eos_date: eosDate,
+        eol_status: eolStatus
+    };
+
+})(inputs);]]></script>
+        <sys_class_name>sn_aia_tool</sys_class_name>
+        <sys_created_by>jay.jignesh</sys_created_by>
+        <sys_created_on>2026-09-16 08:08:39</sys_created_on>
+        <sys_domain>global</sys_domain>
+        <sys_id>e5c8da223bdb8f10a72197d643e45aa0</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>Identify CI Model OT</sys_name>
+        <sys_overrides/>
+        <sys_package display_value="Incigennie OT" source="x_aenpl_incigenn_0">b85245923b934b10a72197d643e45a85</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Incigennie OT">b85245923b934b10a72197d643e45a85</sys_scope>
+        <sys_update_name>sn_aia_tool_e5c8da223bdb8f10a72197d643e45aa0</sys_update_name>
+        <sys_updated_by>jay.jignesh</sys_updated_by>
+        <sys_updated_on>2026-09-16 08:08:39</sys_updated_on>
+        <target_document/>
+        <target_document_table>sn_aia_tool</target_document_table>
+        <type>script</type>
+    </sn_aia_tool>
+</record_update>

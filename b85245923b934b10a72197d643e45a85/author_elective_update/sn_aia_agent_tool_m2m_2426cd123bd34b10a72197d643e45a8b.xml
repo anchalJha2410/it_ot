@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update sys_domain="global" table="sn_aia_agent_tool_m2m">
+    <sn_aia_agent_tool_m2m action="DELETE">
+        <active>true</active>
+        <agent display_value="Incigenni OT (Copy)">dc268d123bd34b10a72197d643e45ac7</agent>
+        <description>Fetches active change requests related to the issue described in the incident. Uses incident details to suggest ongoing or planned changes addressing similar problems. Intended for one-time retrieval only—does not update records or validate roles.</description>
+        <display_output>true</display_output>
+        <document_status/>
+        <execution_mode>autopilot</execution_mode>
+        <inputs>[{"name":"search_type","description":"Search type","value":"semantic"},{"name":"query","description":"search query for retrieving relevant information from Change"},{"name":"search_profile","value":"change_request_search_profile","label":"Change Request Search Profile","description":"Search profile"},{"name":"sources","label":["Change"],"value":["change_request"],"description":"Search sources"},{"name":"fields","label":["Number [change_request]","Short description [change_request]","Description [change_request]"],"value":["change_request.number","change_request.short_description","change_request.description"],"description":"Fields to be returned"},{"name":"search_results_limit","value":"3","description":"Search results limit"},{"name":"semantic_index_names","label":["similarChangeRequests"],"value":["similarChangeRequests"],"description":"Semantic indexed fields"},{"name":"document_match_threshold","value":"0.7","description":"Document matching threshold"}]</inputs>
+        <max_auto_executions>10</max_auto_executions>
+        <name>Change Request Retrieval</name>
+        <output_transformation_strategy>summary_for_search_results</output_transformation_strategy>
+        <post_message/>
+        <post_processing_script/>
+        <pre_message/>
+        <pre_run>false</pre_run>
+        <sys_class_name>sn_aia_agent_tool_m2m</sys_class_name>
+        <sys_created_by>jay.jignesh</sys_created_by>
+        <sys_created_on>2026-09-15 07:29:06</sys_created_on>
+        <sys_domain>global</sys_domain>
+        <sys_id>2426cd123bd34b10a72197d643e45a8b</sys_id>
+        <sys_mod_count>1</sys_mod_count>
+        <sys_name>Change Request Retrieval</sys_name>
+        <sys_overrides/>
+        <sys_package display_value="Incigennie OT" source="x_aenpl_incigenn_0">b85245923b934b10a72197d643e45a85</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Incigennie OT">b85245923b934b10a72197d643e45a85</sys_scope>
+        <sys_update_name>sn_aia_agent_tool_m2m_2426cd123bd34b10a72197d643e45a8b</sys_update_name>
+        <sys_updated_by>jay.jignesh</sys_updated_by>
+        <sys_updated_on>2026-09-15 07:29:06</sys_updated_on>
+        <timeout/>
+        <tool display_value="AIA RAG Retriever">8021ddea2b0d52101d72fb466e91bfd1</tool>
+        <tool_attributes>{}</tool_attributes>
+        <transformation_instructions/>
+    </sn_aia_agent_tool_m2m>
+    <sys_update_version action="INSERT_OR_UPDATE">
+        <action>DELETE</action>
+        <application display_value="Incigennie OT">b85245923b934b10a72197d643e45a85</application>
+        <file_path/>
+        <instance_id>2f0ca502db4d7810601a11f8489619be</instance_id>
+        <instance_name>aelumconsultingpvtltddemo1</instance_name>
+        <name>sn_aia_agent_tool_m2m_2426cd123bd34b10a72197d643e45a8b</name>
+        <payload><![CDATA[<?xml version="1.0" encoding="UTF-8"?><record_update sys_domain="global" table="sn_aia_agent_tool_m2m"><sn_aia_agent_tool_m2m action="INSERT_OR_UPDATE"><active>true</active><agent display_value="Incigenni OT (Copy)">dc268d123bd34b10a72197d643e45ac7</agent><description>Fetches active change requests related to the issue described in the incident. Uses incident details to suggest ongoing or planned changes addressing similar problems. Intended for one-time retrieval only—does not update records or validate roles.</description><display_output>true</display_output><document_status/><execution_mode>autopilot</execution_mode><inputs>[{"name":"search_type","description":"Search type","value":"semantic"},{"name":"query","description":"search query for retrieving relevant information from Change"},{"name":"search_profile","value":"change_request_search_profile","label":"Change Request Search Profile","description":"Search profile"},{"name":"sources","label":["Change"],"value":["change_request"],"description":"Search sources"},{"name":"fields","label":["Number [change_request]","Short description [change_request]","Description [change_request]"],"value":["change_request.number","change_request.short_description","change_request.description"],"description":"Fields to be returned"},{"name":"search_results_limit","value":"3","description":"Search results limit"},{"name":"semantic_index_names","label":["similarChangeRequests"],"value":["similarChangeRequests"],"description":"Semantic indexed fields"},{"name":"document_match_threshold","value":"0.7","description":"Document matching threshold"}]</inputs><max_auto_executions>10</max_auto_executions><name>Change Request Retrieval</name><output_transformation_strategy>summary_for_search_results</output_transformation_strategy><post_message/><post_processing_script/><pre_message/><pre_run>false</pre_run><sys_class_name>sn_aia_agent_tool_m2m</sys_class_name><sys_created_by>jay.jignesh</sys_created_by><sys_created_on>2026-09-15 07:29:06</sys_created_on><sys_domain>global</sys_domain><sys_id>2426cd123bd34b10a72197d643e45a8b</sys_id><sys_mod_count>1</sys_mod_count><sys_name>Change Request Retrieval</sys_name><sys_overrides/><sys_package display_value="Incigennie OT" source="x_aenpl_incigenn_0">b85245923b934b10a72197d643e45a85</sys_package><sys_policy/><sys_scope display_value="Incigennie OT">b85245923b934b10a72197d643e45a85</sys_scope><sys_update_name>sn_aia_agent_tool_m2m_2426cd123bd34b10a72197d643e45a8b</sys_update_name><sys_updated_by>jay.jignesh</sys_updated_by><sys_updated_on>2026-09-15 07:29:06</sys_updated_on><timeout/><tool display_value="AIA RAG Retriever">8021ddea2b0d52101d72fb466e91bfd1</tool><tool_attributes>{}</tool_attributes><transformation_instructions/></sn_aia_agent_tool_m2m></record_update>]]></payload>
+        <payload_hash>485150455</payload_hash>
+        <record_name>Change Request Retrieval</record_name>
+        <reverted_from/>
+        <source>705245923b934b10a72197d643e45a8b</source>
+        <source_table>sys_update_set</source_table>
+        <state>previous</state>
+        <sys_created_by>jay.jignesh</sys_created_by>
+        <sys_created_on>2026-09-15 07:29:06</sys_created_on>
+        <sys_id>ac26cd123bd34b10a72197d643e45a91</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_recorded_at>1a0a3f831a20000001</sys_recorded_at>
+        <sys_updated_by>jay.jignesh</sys_updated_by>
+        <sys_updated_on>2026-09-15 07:29:06</sys_updated_on>
+        <type>Agent Tool</type>
+        <update_guid>6c26cd12b8d34b10002bf557c7b8c290</update_guid>
+        <update_guid_history>6c26cd12b8d34b10002bf557c7b8c290:485150455,e026cd124bd34b1003ec223d68c52a8e:1452056397</update_guid_history>
+    </sys_update_version>
+    <sys_metadata_delete action="INSERT_OR_UPDATE">
+        <sys_audit_delete display_value="Change Request Retrieval">929a562a3bdb8f10a72197d643e45a3a</sys_audit_delete>
+        <sys_class_name>sys_metadata_delete</sys_class_name>
+        <sys_created_by>jay.jignesh</sys_created_by>
+        <sys_created_on>2026-09-16 08:16:37</sys_created_on>
+        <sys_db_object display_value="" name="sn_aia_agent_tool_m2m">sn_aia_agent_tool_m2m</sys_db_object>
+        <sys_id>066db1addde0441092dd65ed542977a4</sys_id>
+        <sys_metadata>2426cd123bd34b10a72197d643e45a8b</sys_metadata>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>Change Request Retrieval</sys_name>
+        <sys_package display_value="Incigennie OT" source="x_aenpl_incigenn_0">b85245923b934b10a72197d643e45a85</sys_package>
+        <sys_parent/>
+        <sys_policy/>
+        <sys_scope display_value="Incigennie OT">b85245923b934b10a72197d643e45a85</sys_scope>
+        <sys_scope_delete display_value="">0016ae7dbcf84f80906ceb3082a84000</sys_scope_delete>
+        <sys_update_name>sn_aia_agent_tool_m2m_2426cd123bd34b10a72197d643e45a8b</sys_update_name>
+        <sys_update_version display_value="sn_aia_agent_tool_m2m_2426cd123bd34b10a72197d643e45a8b">ac26cd123bd34b10a72197d643e45a91</sys_update_version>
+        <sys_updated_by>jay.jignesh</sys_updated_by>
+        <sys_updated_on>2026-09-16 08:16:37</sys_updated_on>
+    </sys_metadata_delete>
+</record_update>

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update sys_domain="global" table="sn_aia_tool">
+    <sn_aia_tool action="INSERT_OR_UPDATE">
+        <active>true</active>
+        <description>This will return details of an incident. Incident number should be provided as input.</description>
+        <input_schema>[{"name":"incident_number","description":"Incident number","mandatory":false}]</input_schema>
+        <name>Fetch OT Incident</name>
+        <record_type>custom</record_type>
+        <script><![CDATA[(function(inputs) {
+    // only string inputs are allowed 
+    // return outputs object where the keys in it are understandable by LLM  
+    var result = '';
+    var number = inputs.incident_number;
+
+    if (gs.nil(number))
+        return gs.getMessage('No incident number provided.');
+
+    var incidentGR = new GlideRecord("incident");
+    incidentGR.addEncodedQuery('number=' + number + '^ORsys_id=' + number);
+    incidentGR.query();
+
+    if (!incidentGR.next())
+        return gs.getMessage('Cannot find an incident with the given incident number.');
+
+    result += "Incident Number: " + incidentGR.getValue('number') + "\n\n";
+    result += "Incident sysID: " + incidentGR.getValue('sys_id') + "\n\n";
+    result += "Short Description: " + incidentGR.getValue('short_description') + "\n\n";
+    result += "Description: " + incidentGR.getValue('description') + "\n\n";
+
+    return result;
+})(inputs);]]></script>
+        <sys_class_name>sn_aia_tool</sys_class_name>
+        <sys_created_by>jay.jignesh</sys_created_by>
+        <sys_created_on>2026-09-16 08:16:36</sys_created_on>
+        <sys_domain>global</sys_domain>
+        <sys_id>1a9a9ee63bdb8f10a72197d643e45a97</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>Fetch OT Incident</sys_name>
+        <sys_overrides/>
+        <sys_package display_value="Incigennie OT" source="x_aenpl_incigenn_0">b85245923b934b10a72197d643e45a85</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Incigennie OT">b85245923b934b10a72197d643e45a85</sys_scope>
+        <sys_update_name>sn_aia_tool_1a9a9ee63bdb8f10a72197d643e45a97</sys_update_name>
+        <sys_updated_by>jay.jignesh</sys_updated_by>
+        <sys_updated_on>2026-09-16 08:16:36</sys_updated_on>
+        <target_document/>
+        <target_document_table>sn_aia_tool</target_document_table>
+        <type>script</type>
+    </sn_aia_tool>
+</record_update>

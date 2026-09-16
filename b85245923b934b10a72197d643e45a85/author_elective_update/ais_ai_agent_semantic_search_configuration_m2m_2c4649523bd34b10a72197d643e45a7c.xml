@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="ais_ai_agent_semantic_search_configuration_m2m">
+    <ais_ai_agent_semantic_search_configuration_m2m action="DELETE">
+        <ai_agent display_value="Incigenni OT (Copy)">dc268d123bd34b10a72197d643e45ac7</ai_agent>
+        <ai_agent_tool display_value="Change Request Retrieval">2426cd123bd34b10a72197d643e45a8b</ai_agent_tool>
+        <semantic_search_configuration/>
+        <sys_class_name>ais_ai_agent_semantic_search_configuration_m2m</sys_class_name>
+        <sys_created_by>jay.jignesh</sys_created_by>
+        <sys_created_on>2026-09-15 07:29:39</sys_created_on>
+        <sys_id>2c4649523bd34b10a72197d643e45a7c</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name/>
+        <sys_package display_value="Incigennie OT" source="x_aenpl_incigenn_0">b85245923b934b10a72197d643e45a85</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Incigennie OT">b85245923b934b10a72197d643e45a85</sys_scope>
+        <sys_update_name>ais_ai_agent_semantic_search_configuration_m2m_2c4649523bd34b10a72197d643e45a7c</sys_update_name>
+        <sys_updated_by>jay.jignesh</sys_updated_by>
+        <sys_updated_on>2026-09-15 07:29:39</sys_updated_on>
+    </ais_ai_agent_semantic_search_configuration_m2m>
+    <sys_update_version action="INSERT_OR_UPDATE">
+        <action>DELETE</action>
+        <application display_value="Incigennie OT">b85245923b934b10a72197d643e45a85</application>
+        <file_path/>
+        <instance_id>2f0ca502db4d7810601a11f8489619be</instance_id>
+        <instance_name>aelumconsultingpvtltddemo1</instance_name>
+        <name>ais_ai_agent_semantic_search_configuration_m2m_2c4649523bd34b10a72197d643e45a7c</name>
+        <payload><![CDATA[<?xml version="1.0" encoding="UTF-8"?><record_update table="ais_ai_agent_semantic_search_configuration_m2m"><ais_ai_agent_semantic_search_configuration_m2m action="INSERT_OR_UPDATE"><ai_agent display_value="Incigenni OT (Copy)">dc268d123bd34b10a72197d643e45ac7</ai_agent><ai_agent_tool display_value="Change Request Retrieval">2426cd123bd34b10a72197d643e45a8b</ai_agent_tool><semantic_search_configuration/><sys_class_name>ais_ai_agent_semantic_search_configuration_m2m</sys_class_name><sys_created_by>jay.jignesh</sys_created_by><sys_created_on>2026-09-15 07:29:39</sys_created_on><sys_id>2c4649523bd34b10a72197d643e45a7c</sys_id><sys_mod_count>0</sys_mod_count><sys_name/><sys_package display_value="Incigennie OT" source="x_aenpl_incigenn_0">b85245923b934b10a72197d643e45a85</sys_package><sys_policy/><sys_scope display_value="Incigennie OT">b85245923b934b10a72197d643e45a85</sys_scope><sys_update_name>ais_ai_agent_semantic_search_configuration_m2m_2c4649523bd34b10a72197d643e45a7c</sys_update_name><sys_updated_by>jay.jignesh</sys_updated_by><sys_updated_on>2026-09-15 07:29:39</sys_updated_on></ais_ai_agent_semantic_search_configuration_m2m></record_update>]]></payload>
+        <payload_hash>549159322</payload_hash>
+        <record_name/>
+        <reverted_from/>
+        <source>705245923b934b10a72197d643e45a8b</source>
+        <source_table>sys_update_set</source_table>
+        <state>previous</state>
+        <sys_created_by>jay.jignesh</sys_created_by>
+        <sys_created_on>2026-09-15 07:29:39</sys_created_on>
+        <sys_id>6046c9523bd34b10a72197d643e45aa3</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_recorded_at>1a0a3f8af140000001</sys_recorded_at>
+        <sys_updated_by>jay.jignesh</sys_updated_by>
+        <sys_updated_on>2026-09-15 07:29:39</sys_updated_on>
+        <type>AI Agent Semantic Search Configuration M</type>
+        <update_guid>ec46c95253d34b107f3e869af42a9ca1</update_guid>
+        <update_guid_history>ec46c95253d34b107f3e869af42a9ca1:549159322</update_guid_history>
+    </sys_update_version>
+    <sys_metadata_delete action="INSERT_OR_UPDATE">
+        <sys_audit_delete display_value="">9a9a562a3bdb8f10a72197d643e45a2f</sys_audit_delete>
+        <sys_class_name>sys_metadata_delete</sys_class_name>
+        <sys_created_by>jay.jignesh</sys_created_by>
+        <sys_created_on>2026-09-16 08:16:37</sys_created_on>
+        <sys_db_object display_value="" name="ais_ai_agent_semantic_search_configuration_m2m">ais_ai_agent_semantic_search_configuration_m2m</sys_db_object>
+        <sys_id>b594b9d34d334a9bb5e3860253532e09</sys_id>
+        <sys_metadata>2c4649523bd34b10a72197d643e45a7c</sys_metadata>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name/>
+        <sys_package display_value="Incigennie OT" source="x_aenpl_incigenn_0">b85245923b934b10a72197d643e45a85</sys_package>
+        <sys_parent/>
+        <sys_policy/>
+        <sys_scope display_value="Incigennie OT">b85245923b934b10a72197d643e45a85</sys_scope>
+        <sys_scope_delete display_value="">0016ae7dbcf84f80906ceb3082a84000</sys_scope_delete>
+        <sys_update_name>ais_ai_agent_semantic_search_configuration_m2m_2c4649523bd34b10a72197d643e45a7c</sys_update_name>
+        <sys_update_version display_value="ais_ai_agent_semantic_search_configuration_m2m_2c4649523bd34b10a72197d643e45a7c">6046c9523bd34b10a72197d643e45aa3</sys_update_version>
+        <sys_updated_by>jay.jignesh</sys_updated_by>
+        <sys_updated_on>2026-09-16 08:16:37</sys_updated_on>
+    </sys_metadata_delete>
+</record_update>
